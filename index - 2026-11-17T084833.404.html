@@ -1,0 +1,769 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>QR-студия: свой стиль, логотип, SVG и PNG</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@500;700&family=Onest:wght@400;500;600&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/qr-code-styling@1.6.0-rc.1/lib/qr-code-styling.js"></script>
+<style>
+@property --a{syntax:"<angle>";inherits:false;initial-value:0deg}
+:root{--bg:#F5F3FF;--ink:#16122B;--muted:#655F85;--card:rgba(255,255,255,.74);--solid:#FFFFFF;--line:rgba(80,60,160,.15);--c1:#7C4DFF;--c2:#E8387A;--c3:#12B5E0;--warn:#8A4500;--warnbg:#FFEFD6;
+box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px);color-scheme:light}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#0C0920;--ink:#F1EEFF;--muted:#A8A3C9;--card:rgba(30,24,66,.66);--solid:#171236;--line:rgba(170,150,255,.2);--c1:#9272FF;--c2:#FF5D9A;--c3:#32D0F5;--warn:#FFCB8E;--warnbg:#3B2B12;color-scheme:dark}}
+:root[data-theme="dark"]{--bg:#0C0920;--ink:#F1EEFF;--muted:#A8A3C9;--card:rgba(30,24,66,.66);--solid:#171236;--line:rgba(170,150,255,.2);--c1:#9272FF;--c2:#FF5D9A;--c3:#32D0F5;--warn:#FFCB8E;--warnbg:#3B2B12;color-scheme:dark}
+html{scroll-padding-top:env(safe-area-inset-top,0px);-webkit-text-size-adjust:100%}
+*,*::before,*::after{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.55 "Onest",system-ui,-apple-system,"Segoe UI",sans-serif;overflow-x:hidden;transition:background .4s,color .4s}
+.blob{position:fixed;z-index:0;border-radius:50%;filter:blur(80px);opacity:.5;pointer-events:none;animation:drift 18s ease-in-out infinite alternate}
+.b1{width:46vmax;height:46vmax;background:var(--c1);top:-14vmax;left:-12vmax}
+.b2{width:38vmax;height:38vmax;background:var(--c2);bottom:-12vmax;right:-10vmax;animation-delay:-6s;opacity:.38}
+.b3{width:30vmax;height:30vmax;background:var(--c3);top:35%;left:55%;animation-delay:-11s;opacity:.3}
+@keyframes drift{to{transform:translate(6vmax,4vmax) scale(1.15)}}
+main{position:relative;z-index:1;max-width:1020px;margin:0 auto;padding:18px 16px 56px}
+header{display:flex;justify-content:space-between;align-items:flex-start;gap:12px;margin:6px 0 18px}
+h1{font:700 clamp(1.7rem,6.4vw,3rem)/1.08 "Unbounded",system-ui,sans-serif;letter-spacing:-.02em;margin:0}
+.lead{margin:10px 0 0;color:var(--muted);max-width:46ch}
+h2{font:500 .92rem/1.2 "Unbounded",system-ui,sans-serif;margin:0 0 14px}
+.theme{flex:0 0 auto;width:44px;height:44px;border-radius:50%;border:1px solid var(--line);background:var(--card);backdrop-filter:blur(12px);font-size:1.15rem;transition:transform .3s}
+.theme:hover{transform:rotate(25deg)}
+.app{display:grid;gap:16px;grid-template-columns:minmax(0,1fr)}.preview,.controls{min-width:0}
+@media(min-width:860px){.app{grid-template-columns:minmax(0,1fr) 340px;align-items:start}.preview{grid-column:2;grid-row:1;top:20px!important}.controls{grid-column:1;grid-row:1}}
+.card{background:var(--card);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);border:1px solid var(--line);border-radius:20px;padding:18px;margin-bottom:14px}
+.rv{animation:in .8s cubic-bezier(.2,.8,.2,1) both;animation-delay:calc(var(--i,0)*80ms)}
+@keyframes in{from{opacity:0;transform:translateY(18px)}}
+.preview{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;perspective:900px}
+.pcard{position:relative;padding:2px;border-radius:24px;background:conic-gradient(from var(--a),var(--c1),var(--c2),var(--c3),var(--c1));animation:spin 7s linear infinite,in .8s cubic-bezier(.2,.8,.2,1) both;transition:transform .2s ease-out;box-shadow:0 18px 50px -18px var(--c1)}
+@keyframes spin{to{--a:360deg}}
+.pin{display:grid;grid-template-columns:148px 1fr;gap:14px;align-items:center;background:var(--solid);border-radius:22px;padding:12px}
+#qr{width:100%;aspect-ratio:1;display:grid;place-items:center;border-radius:12px;overflow:hidden;background:conic-gradient(#e3e3ec 25%,#fff 0 50%,#e3e3ec 0 75%,#fff 0) 0 0/14px 14px}
+#qr img{display:block;width:100%;height:100%;object-fit:contain}#qr img.pop{animation:pop .3s cubic-bezier(.3,1.5,.5,1)}
+@keyframes pop{from{opacity:.55;transform:scale(.94)}}
+.side{display:grid;gap:8px;min-width:0}
+.actions{display:grid;gap:8px}
+.btn{min-height:46px;padding:0 16px;border-radius:14px;border:1px solid transparent;font:600 .95rem "Onest",system-ui,sans-serif;cursor:pointer;color:#fff;background:linear-gradient(120deg,var(--c1),var(--c2));transition:transform .2s,box-shadow .2s,filter .2s;box-shadow:0 8px 22px -10px var(--c1)}
+.btn:hover:not(:disabled){transform:translateY(-2px);box-shadow:0 14px 26px -10px var(--c2)}
+.btn:active:not(:disabled){transform:scale(.97)}
+.btn.alt{background:transparent;color:var(--ink);border-color:var(--line);box-shadow:none}
+.btn:disabled{opacity:.4;cursor:not-allowed}
+:focus-visible{outline:2.5px solid var(--c1);outline-offset:2px}
+.warn{font-size:.78rem;line-height:1.35;background:var(--warnbg);color:var(--warn);border-radius:10px;padding:7px 10px;margin:0}
+.note{font-size:.85rem;color:var(--muted);margin:10px 0 0}
+.nd{display:none;margin:2px 0 0;font-size:.78rem;color:var(--muted)}
+@media(min-width:860px){.pin{grid-template-columns:1fr;padding:16px;gap:16px}.actions{grid-template-columns:1fr 1fr}.nd{display:block}.warn{font-size:.85rem}}
+.tabs{display:flex;gap:8px;overflow-x:auto;padding:2px 2px 8px;margin:0 -2px;scrollbar-width:none}
+.tabs::-webkit-scrollbar{display:none}
+.chip{flex:0 0 auto;min-height:40px;padding:0 16px;border-radius:999px;border:1px solid var(--line);background:transparent;color:var(--ink);font:500 .9rem "Onest",system-ui,sans-serif;cursor:pointer;transition:all .2s}
+.chip:hover{border-color:var(--c1)}
+.chip[aria-pressed="true"]{background:linear-gradient(120deg,var(--c1),var(--c2));color:#fff;border-color:transparent}
+.sw{display:inline-block;width:12px;height:12px;border-radius:50%;margin-right:8px;vertical-align:-1px}
+.tiles{display:grid;grid-template-columns:repeat(auto-fill,minmax(88px,1fr));gap:8px}
+.tile{display:grid;justify-items:center;gap:8px;padding:12px 6px 10px;border-radius:14px;border:1px solid var(--line);background:transparent;color:var(--ink);font:500 .78rem/1.2 "Onest",system-ui,sans-serif;cursor:pointer;transition:transform .2s,border-color .2s,background .2s}
+.tile:hover{transform:translateY(-2px);border-color:var(--c1)}
+.tile[aria-pressed="true"]{border-color:var(--c1);background:color-mix(in srgb,var(--c1) 16%,transparent);box-shadow:inset 0 0 0 1px var(--c1)}
+.ic{display:inline-grid;grid-template-columns:repeat(3,8px);gap:2px;height:28px;align-content:center;color:var(--c1)}
+.ic i{width:8px;height:8px;background:currentColor}.ic i.e{background:none}
+.ic.f,.ic.b{display:block;width:22px;height:22px}
+.ic.f{border:5px solid currentColor}
+.ic.b{background:currentColor;width:18px;height:18px;margin:2px 0}
+.sub{font-size:.85rem;color:var(--muted);margin:16px 0 8px}
+label{display:block;font-size:.85rem;color:var(--muted);margin:13px 0 5px}
+.row{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+input[type=text],input[type=email],input[type=tel],input[type=url],select,textarea{width:100%;min-height:48px;padding:10px 14px;font:inherit;color:var(--ink);background:color-mix(in srgb,var(--solid) 70%,transparent);border:1px solid var(--line);border-radius:12px;transition:border-color .2s,box-shadow .2s}
+input:focus,select:focus,textarea:focus{outline:0;border-color:var(--c1);box-shadow:0 0 0 3px color-mix(in srgb,var(--c1) 25%,transparent)}
+textarea{min-height:92px;resize:vertical}
+input[type=color]{width:100%;height:48px;padding:4px;border:1px solid var(--line);border-radius:12px;background:transparent;cursor:pointer}
+input[type=range]{width:100%;accent-color:var(--c1)}
+.check{display:flex;align-items:center;gap:12px;margin:14px 0 0;font-size:.95rem;color:var(--ink);cursor:pointer}
+.check input{width:20px;height:20px;accent-color:var(--c1)}
+.logo-row{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+.logo-row img{width:48px;height:48px;object-fit:contain;border:1px solid var(--line);border-radius:10px;background:#fff}
+.hide{display:none!important}
+#qr{transition:opacity .3s}#qr.ghost img{opacity:.28;filter:grayscale(.5)}
+.check{padding-top:14px;border-top:1px solid var(--line)}
+.check input{appearance:none;-webkit-appearance:none;flex:0 0 auto;order:2;margin-left:auto;width:48px;height:28px;border-radius:14px;background:var(--line);position:relative;cursor:pointer;transition:background .25s}
+.check input::after{content:"";position:absolute;top:3px;left:3px;width:22px;height:22px;border-radius:50%;background:#fff;box-shadow:0 2px 6px rgba(0,0,0,.3);transition:transform .3s cubic-bezier(.3,1.4,.5,1)}
+.check input:checked{background:linear-gradient(120deg,var(--c1),var(--c2))}
+.check input:checked::after{transform:translateX(20px)}
+.seg{display:flex;gap:4px;min-height:52px;padding:4px;border-radius:16px;border:1px solid var(--line);background:color-mix(in srgb,var(--solid) 70%,transparent)}
+.seg button{flex:1;border:0;border-radius:12px;background:transparent;color:var(--ink);font:500 .82rem "Onest",system-ui,sans-serif;cursor:pointer;transition:all .25s}
+.seg button[aria-pressed="true"]{background:linear-gradient(120deg,var(--c1),var(--c2));color:#fff;box-shadow:0 6px 16px -8px var(--c1)}
+.cbtn{display:flex;align-items:center;gap:12px;width:100%;min-height:52px;padding:6px 14px 6px 6px;border-radius:16px;border:1px solid var(--line);background:color-mix(in srgb,var(--solid) 70%,transparent);color:var(--ink);font:600 .92rem "Onest",system-ui,sans-serif;letter-spacing:.03em;cursor:pointer;transition:border-color .2s,transform .2s,box-shadow .2s}
+.cbtn:hover{border-color:var(--c1);transform:translateY(-1px);box-shadow:0 8px 20px -12px var(--c1)}
+.cs{flex:0 0 auto;width:38px;height:38px;border-radius:11px;background:var(--sw,#888);box-shadow:inset 0 0 0 1px rgba(0,0,0,.18)}
+.cs.big{width:52px;height:52px;border-radius:16px}
+.cp{position:fixed;inset:0;z-index:30;display:flex;align-items:flex-end;justify-content:center;visibility:hidden;transition:visibility 0s .4s}
+.cp.on{visibility:visible;transition:none}
+.cp-bg{position:absolute;inset:0;background:rgba(12,9,32,.45);opacity:0;transition:opacity .3s}
+.cp.on .cp-bg{opacity:1}
+.cp-sheet{position:relative;width:min(100%,440px);max-height:94vh;overflow:auto;background:var(--solid);border:1px solid var(--line);border-bottom:0;border-radius:28px 28px 0 0;padding:10px 20px calc(20px + env(safe-area-inset-bottom,0px));transform:translateY(105%);transition:transform .4s cubic-bezier(.2,.9,.2,1);box-shadow:0 -20px 60px -24px var(--c1)}
+.cp.on .cp-sheet{transform:none}
+.cp-grab{width:42px;height:5px;border-radius:3px;background:var(--line);margin:0 auto 14px}
+@media(min-width:860px){.cp{align-items:center}.cp-sheet{border:1px solid var(--line);border-radius:28px;padding-bottom:20px;opacity:0;transform:translateY(24px) scale(.96);transition:transform .35s cubic-bezier(.2,.9,.2,1),opacity .25s}.cp.on .cp-sheet{opacity:1;transform:none}}
+/* Модалка редактирования URL */
+#um{align-items:center;padding:16px;padding-bottom:calc(16px + env(safe-area-inset-bottom,0px))}
+#um .cp-bg{backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px)}
+#um .cp-sheet{border:1px solid var(--line);border-radius:26px;padding:18px 20px 20px;opacity:0;transform:translateY(22px) scale(.94);transition:transform .34s cubic-bezier(.2,.9,.2,1),opacity .25s}
+#um.on .cp-sheet{opacity:1;transform:none}
+.um-head{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:4px}
+.um-head h2{margin:0}
+.um-x{width:34px;height:34px;border-radius:50%;border:1px solid var(--line);background:transparent;color:var(--muted);font-size:1.1rem;line-height:1;cursor:pointer;display:grid;place-items:center;transition:border-color .2s,color .2s}
+.um-x:hover{border-color:var(--c1);color:var(--ink)}
+.um-sub{font-size:.82rem;color:var(--muted);word-break:break-all;margin:0 0 14px}
+/* Селектор защиты Wi-Fi в стиле сайта */
+.sel-btn{display:flex;align-items:center;justify-content:space-between;gap:12px;width:100%;min-height:48px;padding:10px 14px;border-radius:12px;border:1px solid var(--line);background:color-mix(in srgb,var(--solid) 70%,transparent);color:var(--ink);font:inherit;text-align:left;cursor:pointer;transition:border-color .2s,box-shadow .2s}
+.sel-btn:hover{border-color:var(--c1)}
+.sel-btn:focus-visible{outline:0;border-color:var(--c1);box-shadow:0 0 0 3px color-mix(in srgb,var(--c1) 25%,transparent)}
+.sel-arr{color:var(--muted);font-size:.85rem;transition:transform .25s}
+#encModal.on .cp-bg{backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px)}
+.opt-list{display:grid;gap:8px;margin-top:6px}
+.opt-item{display:flex;align-items:center;justify-content:space-between;gap:12px;width:100%;padding:14px 16px;border-radius:16px;border:1px solid var(--line);background:transparent;color:var(--ink);font:500 .95rem "Onest",system-ui,sans-serif;text-align:left;cursor:pointer;transition:border-color .2s,background .2s,transform .15s}
+.opt-item:hover{border-color:var(--c1)}
+.opt-item:active{transform:scale(.98)}
+.opt-item[aria-checked="true"]{border-color:var(--c1);background:color-mix(in srgb,var(--c1) 14%,transparent);box-shadow:inset 0 0 0 1px var(--c1)}
+.opt-item small{display:block;font-size:.78rem;font-weight:400;color:var(--muted);margin-top:2px}
+.opt-dot{flex:0 0 auto;width:22px;height:22px;border-radius:50%;border:2px solid var(--line);position:relative;transition:border-color .2s}
+.opt-item[aria-checked="true"] .opt-dot{border-color:var(--c1)}
+.opt-item[aria-checked="true"] .opt-dot::after{content:"";position:absolute;inset:4px;border-radius:50%;background:linear-gradient(120deg,var(--c1),var(--c2))}
+.sv{position:relative;height:190px;border-radius:18px;touch-action:none;cursor:crosshair;background:linear-gradient(to top,#000,transparent),linear-gradient(to right,#fff,transparent),var(--hue,#f00)}
+.hue{position:relative;height:18px;margin:18px 4px 0;border-radius:9px;touch-action:none;background:linear-gradient(90deg,#f00,#ff0,#0f0,#0ff,#00f,#f0f,#f00)}
+.sv i,.hue i{position:absolute;width:26px;height:26px;margin:-13px 0 0 -13px;border-radius:50%;border:3px solid #fff;background:var(--hc,transparent);box-shadow:0 2px 8px rgba(0,0,0,.45);pointer-events:none}
+.hue i{top:50%}
+.cp-row{display:flex;gap:12px;align-items:center;margin-top:18px}
+.cp-row input{flex:1;font:600 1.05rem "Unbounded",system-ui,sans-serif;letter-spacing:.05em;text-transform:uppercase}
+.pal{display:grid;grid-template-columns:repeat(6,1fr);gap:12px;margin-top:18px}
+.pal button{aspect-ratio:1;border-radius:50%;border:2px solid var(--solid);box-shadow:0 0 0 1px var(--line);background:var(--sw);cursor:pointer;transition:transform .2s}
+.pal button:hover{transform:scale(1.12)}
+.cp-act{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:20px}
+input[type=password]{width:100%;min-height:48px;padding:10px 14px;font:inherit;color:var(--ink);background:color-mix(in srgb,var(--solid) 70%,transparent);border:1px solid var(--line);border-radius:12px;transition:border-color .2s,box-shadow .2s}
+input[type=password]:focus{outline:0;border-color:var(--c1);box-shadow:0 0 0 3px color-mix(in srgb,var(--c1) 25%,transparent)}
+.check small{display:block;color:var(--muted);font-size:.8rem;line-height:1.35;margin-top:3px}
+.dyn-me{display:flex;justify-content:space-between;align-items:center;gap:10px;margin-top:14px;font-weight:600;word-break:break-all}
+.lk{border:1px solid var(--line);border-radius:16px;padding:12px 14px;margin-bottom:10px;transition:border-color .2s,opacity .2s}
+.lk.sel{border-color:var(--c1);box-shadow:0 0 0 1px var(--c1)}
+.lk.off{opacity:.6}
+.lk-h{display:flex;justify-content:space-between;gap:10px}
+.lk-n{color:var(--c1);font-weight:600;white-space:nowrap}
+.lk-s{font-size:.82rem;color:var(--muted);word-break:break-all;margin-top:2px}
+.lk-t{font-size:.85rem;word-break:break-all;margin-top:6px}
+.lk-in{margin-top:8px}
+.lk-b{display:flex;flex-wrap:wrap;gap:6px;margin-top:10px}
+.lk-b button{min-height:36px;padding:0 12px;border-radius:999px;border:1px solid var(--line);background:transparent;color:var(--ink);font:500 .8rem "Onest",system-ui,sans-serif;cursor:pointer;transition:border-color .2s}
+.lk-b button:hover{border-color:var(--c1)}
+.lk-b button.dg{color:var(--c2)}
+.st{margin-top:12px;font-size:.85rem}
+.bars{display:flex;align-items:flex-end;gap:2px;height:56px;margin-top:8px}
+.bars i{flex:1;min-height:2px;border-radius:2px 2px 0 0;background:linear-gradient(var(--c1),var(--c2));opacity:.85}
+#toast{position:fixed;left:50%;bottom:calc(20px + env(safe-area-inset-bottom,0px));transform:translate(-50%,20px);background:var(--ink);color:var(--bg);padding:11px 18px;border-radius:14px;font-size:.9rem;opacity:0;pointer-events:none;transition:all .3s;max-width:90vw;text-align:center;z-index:20}
+#toast.on{opacity:1;transform:translate(-50%,0)}
+@media(prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important;transition:none!important}}
+</style>
+</head>
+<body>
+<div class="blob b1"></div><div class="blob b2"></div><div class="blob b3"></div>
+<main>
+<header class="rv">
+  <div>
+    <h1>QR-студия</h1>
+    <p class="lead">Цвета, градиенты, формы и логотип. Скачивайте в PNG для экрана или в SVG для печати.</p>
+  </div>
+  <button class="theme" id="theme" aria-label="Сменить тему">☾</button>
+</header>
+<div class="app">
+  <section class="preview" aria-label="Предпросмотр">
+    <div class="pcard" id="pcard"><div class="pin">
+      <div id="qr"><img id="qrimg" alt="Предпросмотр QR-кода" width="720" height="720"></div>
+      <div class="side">
+        <div class="actions">
+          <button class="btn" id="dl-png" disabled>↓ PNG</button>
+          <button class="btn alt" id="dl-svg" disabled>↓ SVG</button>
+        </div>
+        <p class="warn hide" id="warn" role="status"></p>
+        <p class="nd">Перед печатью проверьте код сканером телефона.</p>
+      </div>
+    </div></div>
+  </section>
+
+  <section class="controls">
+    <div class="card rv" style="--i:2">
+      <h2>Что закодировать</h2>
+      <div class="tabs" id="types" role="group" aria-label="Тип содержимого"></div>
+      <div id="fields"></div>
+    </div>
+    <div class="card rv" style="--i:2" id="dynCard">
+      <label class="check" style="margin:0;padding:0;border:0"><span>Динамический код<small>Можно менять адрес после печати и смотреть статистику сканов</small></span><input type="checkbox" id="dynOn"></label>
+      <div id="dynBox" class="hide">
+        <div id="dynAuth">
+          <p class="note">Войдите или зарегистрируйтесь, чтобы создавать динамические коды.</p>
+          <label for="dynEmail">Email</label><input type="email" id="dynEmail" autocomplete="email" autocapitalize="none">
+          <label for="dynPass">Пароль (от 8 символов)</label><input type="password" id="dynPass" autocomplete="current-password">
+          <div class="row" style="margin-top:14px"><button class="btn" id="dynLogin" type="button">Войти</button><button class="btn alt" id="dynReg" type="button">Регистрация</button></div>
+        </div>
+        <div id="dynMain" class="hide">
+          <div class="dyn-me"><span id="dynMe"></span><button class="chip" id="dynOut" type="button">Выйти</button></div>
+          <label for="dynTitle">Название (видно только вам)</label><input type="text" id="dynTitle" maxlength="120" placeholder="Например, меню ресторана">
+          <button class="btn" id="dynCreate" type="button" style="width:100%;margin-top:14px">Создать динамический код</button>
+          <p class="note" id="dynInfo"></p>
+          <p class="sub">Мои коды</p>
+          <div id="dynList"></div>
+        </div>
+      </div>
+    </div>
+    <div class="card rv" style="--i:3">
+      <h2>Готовые стили</h2>
+      <div class="tabs" id="presets" role="group" aria-label="Готовые стили"></div>
+    </div>
+    <div class="card rv" style="--i:4">
+      <h2>Цвета</h2>
+      <div class="row">
+        <div><label for="fg" style="margin-top:0">Код</label><input type="hidden" id="fg" value="#14102B"></div>
+        <div id="bgWrap"><label for="bg" style="margin-top:0">Фон</label><input type="hidden" id="bg" value="#ffffff"></div>
+      </div>
+      <label class="check"><input type="checkbox" id="transparent"> Прозрачный фон</label>
+      <label class="check"><input type="checkbox" id="grad"> Градиент</label>
+      <div id="gradBox" class="hide"><div class="row">
+        <div><label for="fg2">Второй цвет</label><input type="hidden" id="fg2" value="#E8387A"></div>
+        <div><label>Тип</label><input type="hidden" id="gradType" value="linear"><div class="seg" id="gradSeg" role="group" aria-label="Тип градиента"><button type="button" data-v="linear">Линейный</button><button type="button" data-v="radial">Радиальный</button></div></div>
+      </div></div>
+      <label class="check"><input type="checkbox" id="eyeCustom"> Свой цвет «глаз» (угловых квадратов)</label>
+      <div id="eyeBox" class="hide"><label for="eyeColor">Цвет глаз</label><input type="hidden" id="eyeColor" value="#7C4DFF"></div>
+    </div>
+    <div class="card rv" style="--i:5">
+      <h2>Формы</h2>
+      <p class="sub" style="margin-top:0">Точки</p><div class="tiles" id="dotStyle"></div>
+      <p class="sub">Рамка глаза</p><div class="tiles" id="eyeFrame"></div>
+      <p class="sub">Центр глаза</p><div class="tiles" id="eyeBall"></div>
+    </div>
+    <div class="card rv" style="--i:6">
+      <h2>Логотип</h2>
+      <div class="logo-row">
+        <img id="logoPrev" class="hide" alt="Выбранный логотип">
+        <button class="btn alt" id="logoBtn">Загрузить логотип</button>
+        <button class="btn alt hide" id="logoDel">Убрать</button>
+        <input type="file" id="logoFile" accept="image/png,image/jpeg,image/svg+xml,image/gif,image/webp" class="hide">
+      </div>
+      <div id="logoOpts" class="hide">
+        <label for="logoSize">Размер логотипа: <output id="logoSizeOut">35</output>%</label>
+        <input type="range" id="logoSize" min="15" max="45" value="35">
+        <label class="check"><input type="checkbox" id="logoClear" checked> Убрать точки под логотипом</label>
+      </div>
+      <p class="note">С логотипом код создаётся с максимальной коррекцией ошибок (до 30%), чтобы он читался.</p>
+    </div>
+    <div class="card rv" style="--i:7">
+      <h2>Размер файла</h2>
+      <label for="size" style="margin-top:0">PNG: <output id="sizeOut">1000</output> × <output id="sizeOut2">1000</output> px</label>
+      <input type="range" id="size" min="300" max="2000" step="100" value="1000">
+      <p class="note">SVG масштабируется без потери качества и подходит для печати.</p>
+    </div>
+  </section>
+</div>
+</main>
+<div class="cp" id="cp" role="dialog" aria-modal="true" aria-labelledby="cpTitle"><div class="cp-bg" id="cpBg"></div><div class="cp-sheet"><div class="cp-grab"></div><h2 id="cpTitle">Цвет</h2><div class="sv" id="cpSv"><i id="cpSvH"></i></div><div class="hue" id="cpHue"><i id="cpHueH"></i></div><div class="cp-row"><span class="cs big" id="cpSw"></span><input type="text" id="cpHex" maxlength="7" autocapitalize="characters" spellcheck="false" aria-label="HEX-код цвета"></div><div class="pal" id="cpPal"></div><div class="cp-act"><button type="button" class="btn alt" id="cpCancel">Отмена</button><button type="button" class="btn" id="cpOk">Готово</button></div></div></div>
+<div class="cp" id="um" role="dialog" aria-modal="true" aria-labelledby="umTitle"><div class="cp-bg" id="umBg"></div><form class="cp-sheet" id="umForm"><div class="um-head"><h2 id="umTitle">Изменить ссылку</h2><button type="button" class="um-x" id="umClose" aria-label="Закрыть">✕</button></div><p class="um-sub" id="umShort"></p><label for="umInput" style="margin-top:0">Новый целевой URL</label><input type="url" id="umInput" inputmode="url" autocapitalize="none" spellcheck="false" placeholder="https://example.com" required><div class="cp-act"><button type="button" class="btn alt" id="umCancel">Отмена</button><button type="submit" class="btn" id="umSave">Сохранить</button></div></form></div>
+<div class="cp" id="encModal" role="dialog" aria-modal="true" aria-labelledby="encTitle"><div class="cp-bg" id="encBg"></div><div class="cp-sheet"><div class="cp-grab"></div><div class="um-head" style="margin-bottom:12px"><h2 id="encTitle">Защита Wi-Fi</h2><button type="button" class="um-x" id="encClose" aria-label="Закрыть">✕</button></div><div class="opt-list" id="encList" role="radiogroup" aria-label="Тип защиты Wi-Fi"></div></div></div>
+<div id="toast" role="status" aria-live="polite"></div>
+
+<script>
+(function(){
+var $=function(s){return document.querySelector(s)};
+var S={type:'url',dotStyle:'rounded',eyeFrame:'extra-rounded',eyeBall:'dot',fg:'#14102B',fg2:'#E8387A',grad:false,gradType:'linear',eyeCustom:false,eyeColor:'#7C4DFF',bg:'#FFFFFF',transparent:false,logo:null,logoSize:.35,logoClear:true,size:1000};
+var TYPES=[['url','Ссылка'],['text','Текст'],['wifi','Wi-Fi'],['email','Email'],['phone','Телефон'],['sms','SMS'],['vcard','Визитка'],['geo','Место']];
+var SHAPES={
+ dotStyle:[['square','Квадраты','0'],['dots','Круги','50%'],['rounded','Скруглённые','30%'],['extra-rounded','Мягкие','44%'],['classy','Классика','0 50% 0 50%'],['classy-rounded','Классика+','0 80% 0 80%']],
+ eyeFrame:[['square','Квадрат','0'],['dot','Круг','50%'],['extra-rounded','Скруглённый','34%']],
+ eyeBall:[['square','Квадрат','0'],['dot','Круг','50%']]
+};
+var PRESETS=[
+ ['Классика','#14102B','#7C4DFF',{fg:'#14102B',bg:'#FFFFFF',grad:false,dotStyle:'square',eyeFrame:'square',eyeBall:'square',eyeCustom:false,transparent:false}],
+ ['Неон','#7C4DFF','#E8387A',{fg:'#6C3BFF',fg2:'#E8387A',grad:true,gradType:'linear',bg:'#FFFFFF',dotStyle:'rounded',eyeFrame:'extra-rounded',eyeBall:'dot',eyeCustom:false,transparent:false}],
+ ['Океан','#0B3C8C','#0BB5D6',{fg:'#0B3C8C',fg2:'#0BB5D6',grad:true,gradType:'radial',bg:'#F2FBFF',dotStyle:'dots',eyeFrame:'dot',eyeBall:'dot',eyeCustom:true,eyeColor:'#0B3C8C',transparent:false}],
+ ['Закат','#C2255C','#F08C00',{fg:'#C2255C',fg2:'#E67700',grad:true,gradType:'linear',bg:'#FFF8F0',dotStyle:'classy-rounded',eyeFrame:'extra-rounded',eyeBall:'dot',eyeCustom:false,transparent:false}],
+ ['Лес','#1B4332','#52B788',{fg:'#1B4332',grad:false,bg:'#F1F8E9',dotStyle:'classy',eyeFrame:'square',eyeBall:'dot',eyeCustom:true,eyeColor:'#2D6A4F',transparent:false}]
+];
+var ENC_OPTS=[
+ ['WPA','WPA/WPA2','Стандартная защита современных роутеров'],
+ ['WEP','WEP','Устаревший тип шифрования'],
+ ['nopass','Без пароля','Открытая сеть без пароля']
+];
+var wifiEnc='WPA';
+function inp(id,l,a,t){return '<label for="'+id+'">'+l+'</label><input type="'+(t||'text')+'" id="'+id+'" autocapitalize="none" '+(a||'')+'>'}
+function two(a,b){return '<div class="row"><div>'+a+'</div><div>'+b+'</div></div>'}
+function encLabel(v){var f=ENC_OPTS.find(function(x){return x[0]===v});return f?f[1]:'WPA/WPA2'}
+var FIELDS={
+ url:function(){return inp('f-url','Адрес сайта','inputmode="url" placeholder="https://example.com"')},
+ text:function(){return '<label for="f-text">Текст</label><textarea id="f-text" placeholder="Любой текст"></textarea>'},
+ wifi:function(){return inp('f-ssid','Название сети (SSID)')+inp('f-pass','Пароль')+'<label for="f-enc-btn">Защита</label><input type="hidden" id="f-enc" value="'+wifiEnc+'"><button type="button" class="sel-btn" id="f-enc-btn" aria-haspopup="dialog"><span id="f-enc-txt">'+encLabel(wifiEnc)+'</span><span class="sel-arr">▾</span></button>'},
+ email:function(){return inp('f-mail','Адрес почты','','email')+inp('f-subj','Тема')+'<label for="f-body">Сообщение</label><textarea id="f-body"></textarea>'},
+ phone:function(){return inp('f-tel','Номер телефона','placeholder="+7 900 000-00-00"','tel')},
+ sms:function(){return inp('f-tel','Номер телефона','placeholder="+7 900 000-00-00"','tel')+'<label for="f-msg">Текст сообщения</label><textarea id="f-msg"></textarea>'},
+ vcard:function(){return two(inp('f-fn','Имя'),inp('f-ln','Фамилия'))+inp('f-org','Компания')+two(inp('f-tel','Телефон','','tel'),inp('f-mail','Email','','email'))+inp('f-url','Сайт','inputmode="url"')},
+ geo:function(){return two(inp('f-lat','Широта','inputmode="decimal" placeholder="55.7558"'),inp('f-lng','Долгота','inputmode="decimal" placeholder="37.6173"'))}
+};
+function toast(t){var el=$('#toast');el.textContent=t;el.classList.add('on');clearTimeout(toast.t);toast.t=setTimeout(function(){el.classList.remove('on')},2800)}
+
+function tiles(id,kind,items,key){
+  items.forEach(function(it){
+    var b=document.createElement('button');b.type='button';b.className='tile';b.dataset.v=it[0];
+    var ic=kind==='d'?'<span class="ic">'+[1,1,0,1,0,1,0,1,1].map(function(f){return '<i'+(f?' style="border-radius:'+it[2]+'"':' class="e"')+'></i>'}).join('')+'</span>':'<span class="ic '+(kind==='f'?'f':'b')+'" style="border-radius:'+it[2]+'"></span>';
+    b.innerHTML=ic+'<span>'+it[1]+'</span>';
+    b.onclick=function(){S[key]=it[0];mark();render()};$('#'+id).appendChild(b);
+  });
+}
+tiles('dotStyle','d',SHAPES.dotStyle,'dotStyle');tiles('eyeFrame','f',SHAPES.eyeFrame,'eyeFrame');tiles('eyeBall','b',SHAPES.eyeBall,'eyeBall');
+TYPES.forEach(function(t){
+  var b=document.createElement('button');b.type='button';b.className='chip';b.textContent=t[1];b.dataset.v=t[0];
+  b.onclick=function(){S.type=t[0];buildFields();mark();render()};$('#types').appendChild(b);
+});
+PRESETS.forEach(function(p){
+  var b=document.createElement('button');b.type='button';b.className='chip';
+  b.innerHTML='<span class="sw" style="background:linear-gradient(135deg,'+p[1]+','+p[2]+')"></span>'+p[0];
+  b.onclick=function(){Object.assign(S,p[3]);sync();mark();render();toast('Стиль «'+p[0]+'» применён')};$('#presets').appendChild(b);
+});
+function mark(){
+  ['dotStyle','eyeFrame','eyeBall'].forEach(function(k){
+    document.querySelectorAll('#'+k+' .tile').forEach(function(b){b.setAttribute('aria-pressed',b.dataset.v===S[k])});
+  });
+  document.querySelectorAll('#types .chip').forEach(function(b){b.setAttribute('aria-pressed',b.dataset.v===S.type)});
+}
+function sync(){
+  ['fg','fg2','bg','gradType','eyeColor'].forEach(function(k){$('#'+k).value=S[k]});
+  ['transparent','grad','eyeCustom'].forEach(function(k){$('#'+k).checked=S[k]});
+  $('#bgWrap').classList.toggle('hide',S.transparent);
+  $('#gradBox').classList.toggle('hide',!S.grad);
+  $('#eyeBox').classList.toggle('hide',!S.eyeCustom);refreshCB();
+}
+function buildFields(){
+  var box=$('#fields');box.innerHTML=FIELDS[S.type]();
+  box.querySelectorAll('input,textarea,select').forEach(function(e){e.addEventListener('input',render)});
+  var eb=$('#f-enc-btn');
+  if(eb)eb.onclick=openEncModal;
+}
+
+/* Модалка защиты Wi-Fi */
+function openEncModal(){
+  var list=$('#encList');
+  list.innerHTML=ENC_OPTS.map(function(o){
+    var sel=o[0]===wifiEnc;
+    return '<button type="button" class="opt-item" role="radio" aria-checked="'+sel+'" data-v="'+o[0]+'">'
+      +'<span>'+o[1]+'<small>'+o[2]+'</small></span>'
+      +'<span class="opt-dot"></span>'
+    +'</button>';
+  }).join('');
+  $('#encModal').classList.add('on');
+}
+function closeEncModal(){
+  $('#encModal').classList.remove('on');
+}
+$('#encList').addEventListener('click',function(e){
+  var b=e.target.closest('.opt-item');
+  if(!b)return;
+  wifiEnc=b.dataset.v;
+  var inpEl=$('#f-enc'),txtEl=$('#f-enc-txt');
+  if(inpEl)inpEl.value=wifiEnc;
+  if(txtEl)txtEl.textContent=encLabel(wifiEnc);
+  closeEncModal();
+  render();
+});
+$('#encBg').onclick=closeEncModal;
+$('#encClose').onclick=closeEncModal;
+
+function v(id){var e=$('#'+id);return e?e.value.trim():''}
+function getData(){
+  var esc=function(x){return x.replace(/([\\;,:"])/g,'\\$1')};
+  switch(S.type){
+    case 'url':case 'text':return v(S.type==='url'?'f-url':'f-text');
+    case 'wifi':
+      var ssid=v('f-ssid');if(!ssid)return '';
+      var enc=v('f-enc');
+      return 'WIFI:T:'+enc+';S:'+esc(ssid)+';'+(enc==='nopass'?'':'P:'+esc(v('f-pass'))+';')+';';
+    case 'email':
+      var m=v('f-mail');if(!m)return '';
+      var q=[];if(v('f-subj'))q.push('subject='+encodeURIComponent(v('f-subj')));if(v('f-body'))q.push('body='+encodeURIComponent(v('f-body')));
+      return 'mailto:'+m+(q.length?'?'+q.join('&'):'');
+    case 'phone':var t=v('f-tel').replace(/[^\d+]/g,'');return t?'tel:'+t:'';
+    case 'sms':var n=v('f-tel').replace(/[^\d+]/g,'');return n?'SMSTO:'+n+':'+v('f-msg'):'';
+    case 'vcard':
+      var fn=v('f-fn'),ln=v('f-ln');if(!fn&&!ln)return '';
+      var L=['BEGIN:VCARD','VERSION:3.0','N:'+ln+';'+fn+';;;','FN:'+(fn+' '+ln).trim()];
+      if(v('f-org'))L.push('ORG:'+v('f-org'));if(v('f-tel'))L.push('TEL:'+v('f-tel'));if(v('f-mail'))L.push('EMAIL:'+v('f-mail'));if(v('f-url'))L.push('URL:'+v('f-url'));
+      L.push('END:VCARD');return L.join('\n');
+    case 'geo':
+      var la=parseFloat(v('f-lat').replace(',','.')),lo=parseFloat(v('f-lng').replace(',','.'));
+      return (isFinite(la)&&isFinite(lo))?'geo:'+la+','+lo:'';
+  }
+  return '';
+}
+
+function opts(type,size,data){
+  var g=S.grad?{type:S.gradType,rotation:Math.PI/4,colorStops:[{offset:0,color:S.fg},{offset:1,color:S.fg2}]}:undefined;
+  var eyeC=S.eyeCustom?S.eyeColor:S.fg,eyeG=(!S.eyeCustom&&S.grad)?g:undefined;
+  return {
+    type:type,width:size,height:size,data:data,margin:Math.round(size*.04),
+    qrOptions:{errorCorrectionLevel:S.logo?'H':'M'},
+    dotsOptions:{type:S.dotStyle,color:S.fg,gradient:g},
+    cornersSquareOptions:{type:S.eyeFrame,color:eyeC,gradient:eyeG},
+    cornersDotOptions:{type:S.eyeBall,color:eyeC,gradient:eyeG},
+    backgroundOptions:{color:S.transparent?'rgba(0,0,0,0)':S.bg},
+    image:S.logo||undefined,
+    imageOptions:{hideBackgroundDots:S.logoClear,imageSize:S.logoSize,margin:4,crossOrigin:'anonymous'}
+  };
+}
+function lum(h){var c=[1,3,5].map(function(i){var x=parseInt(h.substr(i,2),16)/255;return x<=.03928?x/12.92:Math.pow((x+.055)/1.055,2.4)});return .2126*c[0]+.7152*c[1]+.0722*c[2]}
+function contrast(a,b){var x=lum(a),y=lum(b);return (Math.max(x,y)+.05)/(Math.min(x,y)+.05)}
+
+var raf=0,ok=false,pv=0;
+function render(){cancelAnimationFrame(raf);raf=requestAnimationFrame(draw)}
+function draw(){
+  var real=getData(),data=real||'https://example.com',warns=[];ok=!!real;$('#qr').classList.toggle('ghost',!real);if(!real)warns.push(DYN.on?'Создайте или выберите динамический код: пока показан образец.':'Введите данные: пока показан образец.');
+  if(!data){warns.push('Заполните поля, и код появится здесь.')}
+  else{
+    try{var tok=++pv;new QRCodeStyling(opts('canvas',720,data)).getRawData('png').then(function(b){if(tok!==pv)return;var im=$('#qrimg'),old=im.src;im.src=URL.createObjectURL(b);if(old.indexOf('blob:')===0)URL.revokeObjectURL(old)}).catch(function(){})}catch(e){warns.push('Не удалось построить код: '+e.message);ok=false}
+    if(data.length>900)warns.push('Данных очень много: код получится плотным, его сложнее считать.');
+  }
+  if(!S.transparent){
+    var fgs=S.grad?[S.fg,S.fg2]:[S.fg];
+    if(Math.min.apply(null,fgs.map(function(c){return contrast(c,S.bg)}))<3)warns.push('Мало контраста между кодом и фоном: часть сканеров может его не прочитать.');
+    if(lum(S.fg)>lum(S.bg))warns.push('Код светлее фона: многие сканеры не читают инвертированные коды.');
+  }
+  var w=$('#warn');w.classList.toggle('hide',!warns.length);w.textContent=warns.join(' ');
+  $('#dl-png').disabled=!ok;$('#dl-svg').disabled=!ok;
+}
+
+var DL=null;
+if(window.claude&&claude.use){claude.use('downloads').then(function(d){DL=d},function(){})}
+function plainSave(blob,name){
+  var a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download=name;
+  document.body.appendChild(a);a.click();a.remove();setTimeout(function(){URL.revokeObjectURL(a.href)},4000);
+}
+function save(ext){
+  if(!ok)return;
+  var q=new QRCodeStyling(opts(ext==='png'?'canvas':'svg',S.size,getData()));
+  toast('Готовим файл…');
+  q.getRawData(ext).then(function(blob){
+    var name='qr-code.'+ext;
+    if(DL)return DL.save({filename:name,data:blob}).then(function(){toast('Файл сохранён')});
+    plainSave(blob,name);toast('Файл скачивается');
+  }).catch(function(e){
+    if(e&&e.code==='declined')return;
+    toast('Не удалось сохранить файл'+(e&&e.message?': '+e.message:''));
+  });
+}
+$('#dl-png').onclick=function(){save('png')};
+$('#dl-svg').onclick=function(){save('svg')};
+
+function bind(id,key,fn){
+  var el=$('#'+id);
+  el.addEventListener('input',function(){S[key]=el.type==='checkbox'?el.checked:el.value;if(fn)fn();render()});
+}
+bind('fg','fg');bind('fg2','fg2');bind('bg','bg');bind('gradType','gradType');bind('eyeColor','eyeColor');bind('logoClear','logoClear');
+bind('transparent','transparent',sync);bind('grad','grad',sync);bind('eyeCustom','eyeCustom',sync);
+$('#logoSize').addEventListener('input',function(e){S.logoSize=e.target.value/100;$('#logoSizeOut').textContent=e.target.value;render()});
+$('#size').addEventListener('input',function(e){S.size=+e.target.value;$('#sizeOut').textContent=S.size;$('#sizeOut2').textContent=S.size});
+
+function setLogo(src){
+  S.logo=src;var has=!!src;
+  $('#logoPrev').classList.toggle('hide',!has);if(has)$('#logoPrev').src=src;
+  $('#logoDel').classList.toggle('hide',!has);$('#logoOpts').classList.toggle('hide',!has);
+  $('#logoBtn').textContent=has?'Заменить':'Загрузить логотип';
+  render();
+}
+$('#logoBtn').onclick=function(){$('#logoFile').click()};
+$('#logoDel').onclick=function(){$('#logoFile').value='';setLogo(null)};
+$('#logoFile').addEventListener('change',function(e){
+  var f=e.target.files[0];if(!f)return;
+  if(f.size>2*1024*1024){toast('Файл больше 2 МБ');return}
+  var r=new FileReader();r.onload=function(){setLogo(r.result)};r.onerror=function(){toast('Не удалось прочитать файл')};r.readAsDataURL(f);
+});
+
+/* выбор цвета */
+var CP={id:null,h:0,s:1,v:1,orig:''};
+var CIDS=[['fg','Цвет кода'],['bg','Цвет фона'],['fg2','Второй цвет градиента'],['eyeColor','Цвет «глаз»']];
+var PAL=['#14102B','#7C4DFF','#E8387A','#12B5E0','#0B3C8C','#1B4332','#C2255C','#F08C00','#52B788','#FFFFFF','#F5F3FF','#FFF8F0'];
+function hsv2hex(h,s,v){var f=function(n){var k=(n+h/60)%6;return v-v*s*Math.max(0,Math.min(k,4-k,1))};return '#'+[f(5),f(3),f(1)].map(function(x){return ('0'+Math.round(x*255).toString(16)).slice(-2)}).join('').toUpperCase()}
+function hex2hsv(x){var r=parseInt(x.substr(1,2),16)/255,g=parseInt(x.substr(3,2),16)/255,b=parseInt(x.substr(5,2),16)/255,mx=Math.max(r,g,b),d=mx-Math.min(r,g,b),h=0;if(d){if(mx===r)h=((g-b)/d+6)%6;else if(mx===g)h=(b-r)/d+2;else h=(r-g)/d+4;h*=60}return [h,mx?d/mx:0,mx]}
+function refreshCB(){
+  CIDS.forEach(function(c){var b=$('#cb-'+c[0]);if(!b)return;var val=$('#'+c[0]).value.toUpperCase();b.style.setProperty('--sw',val);b.querySelector('.cv').textContent=val});
+  document.querySelectorAll('#gradSeg button').forEach(function(b){b.setAttribute('aria-pressed',b.dataset.v===$('#gradType').value)});
+}
+function setColor(hex){var el=$('#'+CP.id);el.value=hex;el.dispatchEvent(new Event('input'));refreshCB()}
+function cpPaint(){
+  var hex=hsv2hex(CP.h,CP.s,CP.v),sh=$('#cpSvH'),hh=$('#cpHueH');
+  $('#cpSv').style.setProperty('--hue',hsv2hex(CP.h,1,1));
+  sh.style.left=CP.s*100+'%';sh.style.top=(1-CP.v)*100+'%';sh.style.setProperty('--hc',hex);
+  hh.style.left=CP.h/360*100+'%';hh.style.setProperty('--hc',hsv2hex(CP.h,1,1));
+  $('#cpSw').style.setProperty('--sw',hex);
+  if(document.activeElement!==$('#cpHex'))$('#cpHex').value=hex;
+  return hex;
+}
+function openCP(c){var cur=$('#'+c[0]).value,h=hex2hsv(cur);CP.id=c[0];CP.orig=cur;CP.h=h[0];CP.s=h[1];CP.v=h[2];$('#cpTitle').textContent=c[1];$('#cp').classList.add('on');cpPaint();setTimeout(function(){$('#cpOk').focus()},60)}
+function closeCP(revert){if(revert)setColor(CP.orig);$('#cp').classList.remove('on')}
+CIDS.forEach(function(c){
+  var el=$('#'+c[0]),b=document.createElement('button');
+  b.type='button';b.className='cbtn';b.id='cb-'+c[0];b.setAttribute('aria-label',c[1]);
+  b.innerHTML='<span class="cs"></span><span class="cv"></span>';
+  el.parentNode.insertBefore(b,el.nextSibling);
+  b.onclick=function(){openCP(c)};
+});
+PAL.forEach(function(p){
+  var b=document.createElement('button');b.type='button';b.setAttribute('aria-label',p);b.style.setProperty('--sw',p);
+  b.onclick=function(){var h=hex2hsv(p);CP.h=h[0];CP.s=h[1];CP.v=h[2];setColor(cpPaint())};
+  $('#cpPal').appendChild(b);
+});
+function drag(el,fn){
+  el.addEventListener('pointerdown',function(e){
+    el.setPointerCapture(e.pointerId);fn(e);
+    var mv=function(ev){fn(ev)},up=function(){el.removeEventListener('pointermove',mv);el.removeEventListener('pointerup',up)};
+    el.addEventListener('pointermove',mv);el.addEventListener('pointerup',up);
+  });
+}
+function rel(e,el){var r=el.getBoundingClientRect();return [Math.min(1,Math.max(0,(e.clientX-r.left)/r.width)),Math.min(1,Math.max(0,(e.clientY-r.top)/r.height))]}
+drag($('#cpSv'),function(e){var p=rel(e,$('#cpSv'));CP.s=p[0];CP.v=1-p[1];setColor(cpPaint())});
+drag($('#cpHue'),function(e){var p=rel(e,$('#cpHue'));CP.h=p[0]*359.99;setColor(cpPaint())});
+$('#cpHex').addEventListener('input',function(e){var t=e.target.value.trim();if(t.charAt(0)!=='#')t='#'+t;if(/^#[0-9a-fA-F]{6}$/.test(t)){var h=hex2hsv(t);CP.h=h[0];CP.s=h[1];CP.v=h[2];setColor(cpPaint())}});
+$('#cpOk').onclick=function(){closeCP(false)};
+$('#cpBg').onclick=function(){closeCP(false)};
+$('#cpCancel').onclick=function(){closeCP(true)};
+document.addEventListener('keydown',function(e){
+  if(e.key==='Escape'){
+    if($('#cp').classList.contains('on'))closeCP(true);
+    if($('#um').classList.contains('on'))closeUM();
+    if($('#encModal').classList.contains('on'))closeEncModal();
+  }
+});
+document.querySelectorAll('#gradSeg button').forEach(function(b){b.onclick=function(){var g=$('#gradType');g.value=b.dataset.v;g.dispatchEvent(new Event('input'));refreshCB()}});
+
+/* тема */
+var root=document.documentElement,tb=$('#theme');
+function isDark(){return root.dataset.theme?root.dataset.theme==='dark':matchMedia('(prefers-color-scheme:dark)').matches}
+function themeIcon(){tb.textContent=isDark()?'☀':'☾'}
+tb.onclick=function(){root.dataset.theme=isDark()?'light':'dark';themeIcon()};themeIcon();
+
+/* лёгкий наклон карточки на десктопе */
+var pc=$('#pcard');
+if(matchMedia('(hover:hover) and (pointer:fine)').matches&&!matchMedia('(prefers-reduced-motion:reduce)').matches){
+  pc.addEventListener('pointermove',function(e){
+    var r=pc.getBoundingClientRect(),x=(e.clientX-r.left)/r.width-.5,y=(e.clientY-r.top)/r.height-.5;
+    pc.style.transform='rotateY('+(x*8)+'deg) rotateX('+(-y*8)+'deg)';
+  });
+  pc.addEventListener('pointerleave',function(){pc.style.transform=''});
+}
+
+/* === Модалка изменения URL === */
+var UM={id:null,orig:''};
+function syncUMViewport(){
+  var um=$('#um');
+  if(!um.classList.contains('on'))return;
+  var vv=window.visualViewport;
+  if(vv){
+    um.style.height=vv.height+'px';
+    um.style.top=vv.offsetTop+'px';
+    um.style.bottom='auto';
+  }
+}
+function openUM(item){
+  UM.id=item.id;
+  UM.orig=item.url;
+  $('#umShort').textContent=item.short;
+  var inp=$('#umInput');
+  inp.value=item.url;
+  var um=$('#um');
+  um.style.height='';um.style.top='';um.style.bottom='';
+  um.classList.add('on');
+  syncUMViewport();
+}
+function closeUM(){
+  var inp=$('#umInput');
+  inp.blur();
+  var um=$('#um');
+  um.classList.remove('on');
+  um.style.height='';um.style.top='';um.style.bottom='';
+  UM.id=null;
+}
+if(window.visualViewport){
+  window.visualViewport.addEventListener('resize',syncUMViewport);
+  window.visualViewport.addEventListener('scroll',syncUMViewport);
+}
+$('#umBg').onclick=closeUM;
+$('#umClose').onclick=closeUM;
+$('#umCancel').onclick=closeUM;
+$('#umForm').addEventListener('submit',function(e){
+  e.preventDefault();
+  if(!UM.id)return;
+  var next=$('#umInput').value.trim();
+  if(!next){toast('Введите адрес сайта');return}
+  if(next===UM.orig){closeUM();return}
+  var btn=$('#umSave');btn.disabled=true;
+  api('update',{id:UM.id,url:next}).then(function(){
+    btn.disabled=false;
+    closeUM();
+    toast('Ссылка обновлена');
+    dynLoadList();
+  }).catch(function(er){
+    btn.disabled=false;
+    toast(er.message);
+  });
+});
+
+/* === Динамические QR-коды === */
+var DYN={on:false,user:null,links:[],sel:null};
+
+function api(act,data){
+  var opt={headers:{'X-Requested-With':'qrstudio'}};
+  if(data!==undefined){
+    opt.method='POST';
+    opt.headers['Content-Type']='application/json';
+    opt.body=JSON.stringify(data);
+  }
+  return fetch('api.php?a='+act,opt).then(function(r){
+    return r.json().then(function(j){
+      if(!r.ok)throw new Error(j.error||'Ошибка сервера');
+      return j;
+    });
+  });
+}
+
+var origGetData=getData;
+getData=function(){
+  if(DYN.on){
+    if(!DYN.sel)return '';
+    var found=DYN.links.find(function(x){return x.id===DYN.sel});
+    return found?found.short:'';
+  }
+  return origGetData();
+};
+
+function dynRenderAuth(){
+  var u=DYN.user;
+  $('#dynAuth').classList.toggle('hide',!!u);
+  $('#dynMain').classList.toggle('hide',!u);
+  if(u){
+    $('#dynMe').textContent=u.email;
+    dynLoadList();
+  }
+}
+
+function dynLoadList(){
+  api('list').then(function(r){
+    DYN.links=r.links||[];
+    if(DYN.links.length&&(!DYN.sel||!DYN.links.some(function(x){return x.id===DYN.sel}))){
+      DYN.sel=DYN.links[0].id;
+    }else if(!DYN.links.length){
+      DYN.sel=null;
+    }
+    dynDrawList();
+    render();
+  }).catch(function(e){toast(e.message)});
+}
+
+function escHtml(s){
+  return String(s).replace(/[&<>"']/g,function(m){
+    return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m];
+  });
+}
+
+function dynDrawList(){
+  var box=$('#dynList');
+  if(!DYN.links.length){
+    box.innerHTML='<p class="note">У вас пока нет динамических кодов. Введите ссылку выше и нажмите «Создать».</p>';
+    return;
+  }
+  box.innerHTML=DYN.links.map(function(l){
+    var isSel=l.id===DYN.sel;
+    return '<div class="lk'+(isSel?' sel':'')+(l.active?'':' off')+'" data-id="'+l.id+'">'
+      +'<div class="lk-h"><strong>'+escHtml(l.title||'Без названия')+'</strong><span class="lk-n">'+l.scans+' сканов</span></div>'
+      +'<div class="lk-s">'+escHtml(l.short)+'</div>'
+      +'<div class="lk-t">→ '+escHtml(l.url)+'</div>'
+      +'<div class="lk-b">'
+        +'<button type="button" data-act="pick">'+(isSel?'✓ В QR-коде':'Выбрать для QR')+'</button>'
+        +'<button type="button" data-act="edit">Изменить URL</button>'
+        +'<button type="button" data-act="stat">Статистика</button>'
+        +'<button type="button" data-act="tog">'+(l.active?'Пауза':'Включить')+'</button>'
+        +'<button type="button" class="dg" data-act="del">Удалить</button>'
+      +'</div>'
+      +'<div class="st hide" id="st-'+l.id+'"></div>'
+    +'</div>';
+  }).join('');
+}
+
+$('#dynOn').addEventListener('change',function(e){
+  DYN.on=e.target.checked;
+  $('#dynBox').classList.toggle('hide',!DYN.on);
+  if(DYN.on&&S.type!=='url'){
+    S.type='url';buildFields();mark();
+  }
+  $('#types').classList.toggle('hide',DYN.on);
+  if(DYN.on&&!DYN.user){
+    api('me').then(function(r){DYN.user=r.user;dynRenderAuth()}).catch(function(){});
+  }
+  render();
+});
+
+function doAuth(act){
+  var email=$('#dynEmail').value.trim(),password=$('#dynPass').value;
+  if(!email||!password){toast('Введите email и пароль');return}
+  api(act,{email:email,password:password}).then(function(r){
+    DYN.user=r.user;
+    $('#dynPass').value='';
+    dynRenderAuth();
+    toast(act==='login'?'Вы вошли':'Аккаунт создан');
+  }).catch(function(e){toast(e.message)});
+}
+$('#dynLogin').onclick=function(){doAuth('login')};
+$('#dynReg').onclick=function(){doAuth('register')};
+$('#dynOut').onclick=function(){
+  api('logout',{}).then(function(){DYN.user=null;DYN.links=[];DYN.sel=null;dynRenderAuth();render()}).catch(function(e){toast(e.message)});
+};
+
+$('#dynCreate').onclick=function(){
+  if(S.type!=='url'){S.type='url';buildFields();mark()}
+  var url=origGetData();
+  if(!url){toast('Сначала введите адрес сайта (URL) в поле выше');return}
+  var title=$('#dynTitle').value.trim();
+  api('create',{url:url,title:title}).then(function(r){
+    $('#dynTitle').value='';
+    DYN.sel=r.link.id;
+    toast('Динамический код создан');
+    dynLoadList();
+  }).catch(function(e){toast(e.message)});
+};
+
+$('#dynList').addEventListener('click',function(e){
+  var btn=e.target.closest('button[data-act]');
+  if(!btn)return;
+  var card=btn.closest('.lk'),id=+card.dataset.id,act=btn.dataset.act;
+  var item=DYN.links.find(function(x){return x.id===id});
+  if(!item)return;
+
+  if(act==='pick'){
+    DYN.sel=id;dynDrawList();render();
+  }else if(act==='edit'){
+    openUM(item);
+  }else if(act==='tog'){
+    api('update',{id:id,active:!item.active}).then(function(){toast(item.active?'Код поставлен на паузу':'Код включён');dynLoadList()}).catch(function(er){toast(er.message)});
+  }else if(act==='del'){
+    if(!confirm('Удалить этот динамический код и всю его статистику?'))return;
+    api('delete',{id:id}).then(function(){toast('Удалено');dynLoadList()}).catch(function(er){toast(er.message)});
+  }else if(act==='stat'){
+    var st=$('#st-'+id);
+    if(!st.classList.contains('hide')){st.classList.add('hide');return}
+    st.classList.remove('hide');st.textContent='Загрузка…';
+    api('stats&id='+id).then(function(r){
+      var mx=Math.max.apply(null,r.days.map(function(d){return d.c}).concat([1]));
+      var bars=r.days.map(function(d){
+        var h=Math.max(2,Math.round((d.c/mx)*52));
+        return '<i style="height:'+h+'px" title="'+d.d+': '+d.c+'"></i>';
+      }).join('');
+      var devs=r.devices.map(function(x){return x.device+': '+x.c}).join(', ')||'нет данных';
+      st.innerHTML='Всего сканов: <b>'+r.total+'</b> (уникальных: <b>'+r.unique+'</b>)<br>Устройства: '+escHtml(devs)+'<div class="bars">'+bars+'</div>';
+    }).catch(function(er){st.textContent=er.message});
+  }
+});
+
+$('#qrimg').onload=function(){this.classList.remove('pop');void this.offsetWidth;this.classList.add('pop')};
+buildFields();sync();mark();render();
+})();
+</script>
+</body>
+</html>
